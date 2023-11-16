@@ -1,18 +1,21 @@
 "use client";
+import React from "react";
 import { Button } from "antd";
 
-export default function Home() {
+function Login() {
   return (
     <div>
-      <h1>Researchly(src-app-page.tsx)</h1>
+      <h1>Login</h1>
       <Button
         type="primary"
         onClick={() => {
           alert("Hello");
         }}
       >
-        Primary Button
+        login Primary Button
       </Button>
     </div>
   );
 }
+
+export default Login;
