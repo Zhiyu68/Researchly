@@ -6,7 +6,9 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body>
-        <ConfigProvider>{children}</ConfigProvider>
+        <ConfigProvider theme={{ token: { colorPrimary: "#213555" } }}>
+          {children}
+        </ConfigProvider>
       </body>
     </html>
   );
