@@ -1,6 +1,12 @@
 import mongoose, { model } from "mongoose";
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+    {
+    userType : {
+        type : String,
+        required : true,
+        default : "student"
+    },
     name : {
         type : String,
         required : true
@@ -8,14 +14,14 @@ const userSchema = new mongoose.Schema({
     email : {
         type : String,
         required :true,
-        unique : true
+        unique : true,
     },
     password : {
         type : String,
         required : true
     },
-    isAdmain : {
-        type : String,
+    isAdmin : {
+        type : Boolean,
         required :true,
         default : false
     }
@@ -23,10 +29,13 @@ const userSchema = new mongoose.Schema({
     timestamps : true
 });
 
+
 // delete old model
-
-const userModel = mongoose.model('user')
-mongoose.deleteModel(userModel.modelName)
-
-// create new model
-module.exports = mongoose.model("users",userSchema);
+if (mongoose.models.users) {
+    const userModel = mongoose.model("users");
+    mongoose.deleteModel(userModel.modelName);
+  }
+  
+  // create new model
+  const User = mongoose.model("users", userSchema);
+  export default User;
