@@ -62,6 +62,20 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
     }
   }, [pathname]);
 
+  const onLogout = async () => {
+    try {
+      dispatch(SetLoading(true));
+      await axios.post("/api/users/logout");
+      message.success("Logged out successfully");
+      dispatch(SetCurrentUser(null));
+      router.push("/login");
+    } catch (error: any) {
+      message.error(error.response.data.message || "Something went wrong");
+    } finally {
+      dispatch(SetLoading(false));
+    }
+  };
+
   return (
     <html lang="en">
       <head>
@@ -126,7 +140,7 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
                       <span>{currentUser?.email}</span>
                     </div>
                   )}
-                  <i className="ri-logout-box-r-line"></i>
+                  <i className="ri-logout-box-r-line" onClick={onLogout}></i>
                 </div>
               </div>
               <div className="body">{children}</div>
