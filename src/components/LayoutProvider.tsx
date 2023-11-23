@@ -1,11 +1,20 @@
 "use client";
-import React from "react";
-import { ConfigProvider } from "antd";
-import { usePathname } from "next/navigation";
+import React, { useEffect, useState } from "react";
+import { ConfigProvider, message } from "antd";
+import { usePathname, useRouter } from "next/navigation";
+import axios from "axios";
+import { useDispatch, useSelector } from "react-redux";
+import { SetCurrentUser } from "@/redux/usersSlice";
+import Loader from "./Loader";
+import { SetLoading } from "@/redux/loaderSlice";
 
 function LayoutProvider({ children }: { children: React.ReactNode }) {
+  const { currentUser } = useSelector((state: any) => state.users);
+  const { loading } = useSelector((state: any) => state.loaders);
+  const dispatch = useDispatch();
+  const router = useRouter();
   const [isSidebarExpanded, setIsSidebarExpanded] = React.useState(true);
-  const menuitems = [
+  const [menuItems, setMenuItems] = useState([
     {
       name: "Home",
       path: "/",
@@ -31,9 +40,27 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
       path: "/saved",
       icon: "ri-save-line",
     },
-  ];
+  ]);
 
   const pathname = usePathname();
+
+  const getCurrentUser = async () => {
+    try {
+      dispatch(SetLoading(true));
+      const response = await axios.get("/api/users/currentuser");
+      dispatch(SetCurrentUser(response.data.data));
+    } catch (error: any) {
+      message.error(error.response.data.message || "Something went wrong");
+    } finally {
+      dispatch(SetLoading(false));
+    }
+  };
+
+  useEffect(() => {
+    if (pathname !== "/login" && pathname !== "/register") {
+      getCurrentUser();
+    }
+  }, [pathname]);
 
   return (
     <html lang="en">
@@ -45,6 +72,8 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
       </head>
       <body>
         <ConfigProvider theme={{ token: { colorPrimary: "#213555" } }}>
+          {loading && <Loader />}
+
           {/* if route is login or register , dont show layout */}
 
           {pathname === "/login" || pathname === "/register" ? (
@@ -70,7 +99,7 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
                 </div>
 
                 <div className="menu-items">
-                  {menuitems.map((item, index) => {
+                  {menuItems.map((item, index) => {
                     const isActive = pathname === item.path;
                     return (
                       <div
@@ -93,8 +122,8 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
                 <div className="user-info">
                   {isSidebarExpanded && (
                     <div className="flex flex-col">
-                      <span>User Name</span>
-                      <span>User Email</span>
+                      <span>{currentUser?.name}</span>
+                      <span>{currentUser?.email}</span>
                     </div>
                   )}
                   <i className="ri-logout-box-r-line"></i>

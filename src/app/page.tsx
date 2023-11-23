@@ -35,8 +35,7 @@ export default async function Home() {
   // }, []);
   return (
     <div>
-      <h1>Researchly</h1>
-      <h1>Current User Name : {user && user.name}</h1>
+      <h1>Home</h1>
     </div>
   );
 }
