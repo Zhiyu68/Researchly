@@ -48,7 +48,15 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
     try {
       dispatch(SetLoading(true));
       const response = await axios.get("/api/users/currentuser");
+      const isResearcher = response.data.data.userType === "researcher";
       dispatch(SetCurrentUser(response.data.data));
+
+      if (isResearcher) {
+        const tempMenuItems: any = menuItems;
+        tempMenuItems[2].name = "Posted Projects";
+        tempMenuItems[2].path = "/projects";
+        setMenuItems(tempMenuItems);
+      }
     } catch (error: any) {
       message.error(error.response.data.message || "Something went wrong");
     } finally {

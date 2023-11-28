@@ -13,7 +13,7 @@ html , body {
     box-sizing: border-box;
 }
 
-input ,textarea {
+input ,textarea ,select {
     height: 45px;
     width: 100%;
     border: 1px solid #c6c6c6;
@@ -21,7 +21,7 @@ input ,textarea {
     border-radius: 2px;
 }
 
-input:focus , textarea:focus {
+input:focus , textarea:focus select:focus{
     outline: none;
     border: 1px solid #353535;
 }
@@ -50,4 +50,14 @@ label {
 a {
     text-decoration: none;
     color: var(--primary) !important;
+}
+
+i {
+    font-size: 25px;
+    cursor: pointer;
+}
+
+table {
+    border: 1px solid #c7c7c7 !important;
+    border-radius: 2px !important;
 }
