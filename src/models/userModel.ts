@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema(
         required :true,
         unique : true,
     },
+    phone : {
+        type : String,
+        required :false,
+    },
     password : {
         type : String,
         required : true
@@ -24,7 +28,48 @@ const userSchema = new mongoose.Schema(
         type : Boolean,
         required :true,
         default : false
-    }
+    },
+
+    // additional fields for Student
+    skills :{
+        type: [],
+        required: false,
+    },
+    experience :{
+        type: [],
+        required: false,
+    },
+    education :{
+        type: [],
+        required: false,
+    },
+    carrierObjective :{
+         type: String,
+        required: false,
+    },
+
+    // additional fields for Researcher
+    establishmentYear :{
+        type: String,
+        required: false,
+    },
+    companySize :{
+        type: String,
+        required: false,
+    },
+    website :{
+        type: String,
+        required: false,
+    },
+    about :{
+         type: String,
+        required: false,
+    },
+    address :{
+        type: String,
+       required: false,
+   },
+
 },{
     timestamps : true
 });

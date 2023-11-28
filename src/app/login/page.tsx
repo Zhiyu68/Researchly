@@ -33,13 +33,6 @@ function Login() {
           className="flex flex-col gap-5"
           onFinish={onFinish}
         >
-          <Form.Item label="Login As" name="userType">
-            <Radio.Group>
-              <Radio value="researcher"> Researcher</Radio>
-              <Radio value="student"> Student</Radio>
-            </Radio.Group>
-          </Form.Item>
-
           <Form.Item label="Email" name="email">
             <input type="email" className="input" />
           </Form.Item>

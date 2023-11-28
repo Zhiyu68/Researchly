@@ -57,7 +57,7 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
   };
 
   useEffect(() => {
-    if (pathname !== "/login" && pathname !== "/register") {
+    if (pathname !== "/login" && pathname !== "/register" && !currentUser) {
       getCurrentUser();
     }
   }, [pathname]);
@@ -93,58 +93,62 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
           {pathname === "/login" || pathname === "/register" ? (
             <div>{children}</div>
           ) : (
-            <div className="layout-parent">
-              <div className="sidebar">
-                <div className="logo">
-                  {isSidebarExpanded && <h1>RESEARCHLY</h1>}
+            currentUser && (
+              <div className="layout-parent">
+                <div className="sidebar">
+                  <div className="logo">
+                    {isSidebarExpanded && <h1>RESEARCHLY</h1>}
 
-                  {!isSidebarExpanded && (
-                    <i
-                      className="ri-menu-2-line"
-                      onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-                    ></i>
-                  )}
-                  {isSidebarExpanded && (
-                    <i
-                      className="ri-close-line"
-                      onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
-                    ></i>
-                  )}
-                </div>
+                    {!isSidebarExpanded && (
+                      <i
+                        className="ri-menu-2-line"
+                        onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+                      ></i>
+                    )}
+                    {isSidebarExpanded && (
+                      <i
+                        className="ri-close-line"
+                        onClick={() => setIsSidebarExpanded(!isSidebarExpanded)}
+                      ></i>
+                    )}
+                  </div>
 
-                <div className="menu-items">
-                  {menuItems.map((item, index) => {
-                    const isActive = pathname === item.path;
-                    return (
-                      <div
-                        className={`menu-item ${
-                          isActive ? "active-menu-item" : ""
-                        }`}
-                        style={{
-                          justifyContent: isSidebarExpanded
-                            ? "flex-start"
-                            : "center",
-                        }}
-                      >
-                        <i className={item.icon}></i>
-                        <span>{isSidebarExpanded && item.name}</span>
+                  <div className="menu-items">
+                    {menuItems.map((item, index) => {
+                      const isActive = pathname === item.path;
+                      return (
+                        <div
+                          className={`menu-item ${
+                            isActive ? "active-menu-item" : ""
+                          }`}
+                          style={{
+                            justifyContent: isSidebarExpanded
+                              ? "flex-start"
+                              : "center",
+                          }}
+                          key={index}
+                          onClick={() => router.push(item.path)}
+                        >
+                          <i className={item.icon}></i>
+                          <span>{isSidebarExpanded && item.name}</span>
+                        </div>
+                      );
+                    })}
+                  </div>
+
+                  <div className="user-info">
+                    {isSidebarExpanded && (
+                      <div className="flex flex-col">
+                        <span>{currentUser?.name}</span>
+                        <span>{currentUser?.email}</span>
                       </div>
-                    );
-                  })}
+                    )}
+                    <i className="ri-logout-box-r-line" onClick={onLogout}></i>
+                  </div>
                 </div>
-
-                <div className="user-info">
-                  {isSidebarExpanded && (
-                    <div className="flex flex-col">
-                      <span>{currentUser?.name}</span>
-                      <span>{currentUser?.email}</span>
-                    </div>
-                  )}
-                  <i className="ri-logout-box-r-line" onClick={onLogout}></i>
-                </div>
+                <div className="body">{children}</div>
               </div>
-              <div className="body">{children}</div>
-            </div>
+            )
           )}
         </ConfigProvider>
       </body>
