@@ -1,6 +1,7 @@
 import { connectDB } from "@/config/dbConfig";
 import { validdateJWT } from "@/helpers/vaildateJWT";
 import Project from "@/models/projectModel";
+import { SearchParamsContext } from "next/dist/shared/lib/hooks-client-context.shared-runtime";
 
 import { NextRequest, NextResponse } from "next/server";
 
@@ -21,8 +22,19 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+    
     try {
-        const projects = await Project.find();
+
+        validdateJWT(request);
+
+        // fetch query string parameters
+        const { searchParams } = new URL(request.url)
+
+        const user = searchParams.get('user')
+
+        const projects = await Project.find({
+            user,
+        });
         return NextResponse.json({ message: "Project created successfully" , data : projects,});
         
     }catch (error:any) {
@@ -32,3 +44,4 @@ export async function GET(request: NextRequest) {
         
     }
 }
+
