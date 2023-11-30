@@ -7,8 +7,13 @@ import { useRouter } from "next/navigation";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
+import { Tooltip } from "antd";
+import Applications from "@/components/Applications";
 
 function Projects() {
+  const [selectedProject = {}, setSelectedProject] = React.useState({} as any);
+  const [showApplications = false, setShowApplications] =
+    React.useState<boolean>(false);
   const [projects, setProjects] = React.useState([]);
   const { currentUser } = useSelector((state: any) => state.users);
   const dispatch = useDispatch();
@@ -75,14 +80,28 @@ function Projects() {
       dataIndex: "actions",
       render: (text: any, record: any) => (
         <div className="flex gap-3">
-          <i
-            className="ri-delete-bin-line"
-            onClick={() => deleteProject(record._id)}
-          ></i>
-          <i
-            className="ri-pencil-line"
-            onClick={() => router.push(`/projects/edit/${record._id}`)}
-          ></i>
+          <Tooltip title="Delete">
+            <i
+              className="ri-delete-bin-line"
+              onClick={() => deleteProject(record._id)}
+            ></i>
+          </Tooltip>
+
+          <Tooltip title="Edit">
+            <i
+              className="ri-pencil-line"
+              onClick={() => router.push(`/projects/edit/${record._id}`)}
+            ></i>
+          </Tooltip>
+          <Tooltip title="Applications">
+            <i
+              className="ri-file-list-3-line"
+              onClick={() => {
+                setSelectedProject(record);
+                setShowApplications(true);
+              }}
+            ></i>
+          </Tooltip>
         </div>
       ),
     },
@@ -100,6 +119,14 @@ function Projects() {
       <div className="my-2">
         <Table columns={columns} dataSource={projects} />
       </div>
+
+      {showApplications && (
+        <Applications
+          selectedProject={selectedProject}
+          setShowApplications={setShowApplications}
+          showApplications={showApplications}
+        />
+      )}
     </div>
   );
 }

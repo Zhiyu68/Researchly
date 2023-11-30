@@ -38,7 +38,12 @@ export async function GET(request: NextRequest) {
           }
          const applications = await Application.find(filtersObject)
          .populate("user")
-         .populate("project");
+         .populate({
+            path: "project",
+            populate: {
+                path: "user",
+            }
+         });
 
 
         return NextResponse.json({ 
