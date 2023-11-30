@@ -12,7 +12,9 @@ import { useParams } from "next/navigation";
 function EditProject() {
   const [projectData, setProjectData] = React.useState<any>(null);
   const router = useRouter();
+
   const { projectid } = useParams();
+
   const dispatch = useDispatch();
 
   const onFinish = async (values: any) => {

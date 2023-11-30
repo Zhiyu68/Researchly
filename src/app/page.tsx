@@ -1,41 +1,69 @@
+"use client";
+import { Col, Row, message } from "antd";
+import Divider from "@/components/Divider";
 import axios from "axios";
-import { cookies } from "next/headers";
+import React from "react";
+import { SetLoading } from "@/redux/loaderSlice";
+import { useSelector, useDispatch } from "react-redux";
+import { useRouter } from "next/navigation";
 
-export async function getUser() {
-  try {
-    const token = cookies().get("token");
+function Home() {
+  const router = useRouter();
+  const [projects = [], setProjects] = React.useState([]);
+  const { currentUser } = useSelector((state: any) => state.users);
+  const dispatch = useDispatch();
+  const fetchProjects = async () => {
+    try {
+      dispatch(SetLoading(true));
+      const response = await axios.get(`/api/projects`);
 
-    const response = await axios.get(
-      "http://localhost:3000/api/users/currentuser",
-      {
-        headers: { Cookie: `token=${token?.value} ` },
-      }
-    );
-    return response.data.data;
-  } catch (error) {
-    console.log(error);
-  }
-}
+      setProjects(response.data.data);
+    } catch (error: any) {
+      message.error(error.message);
+    } finally {
+      dispatch(SetLoading(false));
+    }
+  };
 
-export default async function Home() {
-  const user: any = await getUser();
-  // const [user, setUser] = useState(null);
+  React.useEffect(() => {
+    fetchProjects();
+  }, []);
 
-  // const getUser = async () => {
-  //   try {
-  //     const response = await axios.get("/api/users/currentuser");
-  //     setUser(response.data.data);
-  //   } catch (error: any) {
-  //     message.error(error.response.data.message || error.message);
-  //   }
-  // };
-
-  // useEffect(() => {
-  //   getUser();
-  // }, []);
   return (
     <div>
-      <h1>Home</h1>
+      <Row gutter={[16, 16]} className="gap-3">
+        {projects.map((project: any) => (
+          <Col
+            span={8}
+            className="card flex flex-col gap-2 py-3 cursor-pointer"
+            key={project._id}
+            onClick={() => router.push(`/projectinfo/${project._id}`)}
+          >
+            <h1 className="text-md">{project.title}</h1>
+            <Divider />
+
+            <div className="flex justify-between">
+              <span>Researcher</span>
+              <span>{project.user.name}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Location</span>
+              <span>{project.location}</span>
+            </div>
+            <div className="flex justify-between">
+              <span>Salary</span>
+              <span>
+                £{project.salaryFromRange} - £{project.salaryToRange}
+              </span>
+            </div>
+            <div className="flex justify-between">
+              <span>Work Mode</span>
+              <span>{project.workMode}</span>
+            </div>
+          </Col>
+        ))}
+      </Row>
     </div>
   );
 }
+export default Home;

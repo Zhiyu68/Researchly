@@ -57,8 +57,10 @@ function LayoutProvider({ children }: { children: React.ReactNode }) {
         tempMenuItems[2].path = "/projects";
         setMenuItems(tempMenuItems);
       }
+      dispatch(SetCurrentUser(response.data.data));
     } catch (error: any) {
       message.error(error.response.data.message || "Something went wrong");
+      message.error("Please clear your cookies and try again");
     } finally {
       dispatch(SetLoading(false));
     }

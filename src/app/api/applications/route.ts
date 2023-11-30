@@ -1,18 +1,18 @@
 import { connectDB } from "@/config/dbConfig";
 import { validdateJWT } from "@/helpers/vaildateJWT";
-import Project from "@/models/projectModel";
+import Application from "@/models/applicationModel";
 import { NextRequest, NextResponse } from "next/server";
 
 connectDB();
 
 export async function POST(request: NextRequest) {
     try {
-        const userId = await validdateJWT(request);
+        await validdateJWT(request);
         const reqBody = await request.json();
-        const project = await Project.create({ ...reqBody, user: userId});
+        const application = await Application.create(reqBody);
         return NextResponse.json({ 
-            message: "Project created successfully" ,
-            data : project,
+            message: "You have successfully applied for this project" ,
+            data : application ,
         });
     } catch (error:any) {
         console.log(error);
@@ -27,15 +27,23 @@ export async function GET(request: NextRequest) {
         // fetch query string parameters
         const { searchParams } = new URL(request.url);
         const user = searchParams.get('user');
-        
+
+        const project = searchParams.get("project");
         const filtersObject: any = {};
         if (user) {
             filtersObject["user"] = user;
         }
-        const projects = await Project.find(filtersObject).populate("user");
+        if (project) {
+            filtersObject["project"] = project;
+          }
+         const applications = await Application.find(filtersObject)
+         .populate("user")
+         .populate("project");
+
+
         return NextResponse.json({ 
             message: "Project created successfully" , 
-            data : projects,
+            data : applications,
         });
         
     }catch (error:any) {
