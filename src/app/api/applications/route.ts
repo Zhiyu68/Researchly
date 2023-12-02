@@ -1,5 +1,5 @@
 import { connectDB } from "@/config/dbConfig";
-import { validdateJWT } from "@/helpers/vaildateJWT";
+import { validateJWT } from "@/helpers/vaildateJWT";
 import Application from "@/models/applicationModel";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,7 +7,7 @@ connectDB();
 
 export async function POST(request: NextRequest) {
     try {
-        await validdateJWT(request);
+        await validateJWT(request);
         const reqBody = await request.json();
         const application = await Application.create(reqBody);
         return NextResponse.json({ 
@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
     try {
-        validdateJWT(request);
+        validateJWT(request);
 
         // fetch query string parameters
         const { searchParams } = new URL(request.url);

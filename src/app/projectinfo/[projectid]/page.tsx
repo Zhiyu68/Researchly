@@ -116,6 +116,12 @@ function ProjectInfo() {
                 Cancel
               </Button>
               <Button
+                type="default"
+                onClick={() => router.push(`/userinfo/${projectData.user._id}`)}
+              >
+                View Researcher Info
+              </Button>
+              <Button
                 type="primary"
                 onClick={onApply}
                 disabled={
