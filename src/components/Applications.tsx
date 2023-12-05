@@ -92,7 +92,7 @@ function Applications({
     {
       title: "Actions",
       dataIndex: "_id",
-      render: (applicationId: string, application) => (
+      render: (applicationId: string, application: any) => (
         <button
           onClick={() => router.push(`/userinfo/${application.user._id}`)}
         >
