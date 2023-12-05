@@ -6,16 +6,21 @@ import React from "react";
 import { SetLoading } from "@/redux/loaderSlice";
 import { useSelector, useDispatch } from "react-redux";
 import { useRouter } from "next/navigation";
+import Filters from "@/components/Filters";
 
 function Home() {
+  const [filters, setFilters] = React.useState({
+    searchText: "",
+    location: "",
+  });
   const router = useRouter();
   const [projects = [], setProjects] = React.useState([]);
-  const { currentUser } = useSelector((state: any) => state.users);
+
   const dispatch = useDispatch();
   const fetchProjects = async () => {
     try {
       dispatch(SetLoading(true));
-      const response = await axios.get(`/api/projects`);
+      const response = await axios.get(`/api/projects`, { params: filters });
 
       setProjects(response.data.data);
     } catch (error: any) {
@@ -31,6 +36,11 @@ function Home() {
 
   return (
     <div>
+      <Filters
+        filters={filters}
+        setFilters={setFilters}
+        getData={fetchProjects}
+      />
       <Row gutter={[16, 16]} className="gap-3">
         {projects.map((project: any) => (
           <Col
