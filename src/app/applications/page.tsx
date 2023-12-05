@@ -44,7 +44,7 @@ function Applications() {
       render: (project: any) => project.title,
     },
     {
-      title: "Company",
+      title: "Researcher",
       dataIndex: "project",
       render: (project: any) => project.user.name,
     },
