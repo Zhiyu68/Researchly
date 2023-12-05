@@ -1,5 +1,5 @@
 import { connectDB } from "@/config/dbConfig";
-import { validateJWT } from "@/helpers/vaildateJWT";
+import { validateJWT } from "@/helpers/validateJWT";
 import Project from "@/models/projectModel";
 import { NextRequest, NextResponse } from "next/server";
 

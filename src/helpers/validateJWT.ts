@@ -1,7 +1,7 @@
 import { NextRequest } from "next/server";
 import jwt from "jsonwebtoken";
 
-export const validateJWT =async (request:NextRequest) => {
+export  const validateJWT =async (request:NextRequest) => {
     try {
         const token = request.cookies.get("token")?.value;
         if(!token){

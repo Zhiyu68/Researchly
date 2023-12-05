@@ -18,6 +18,7 @@ function UserInfo() {
   const fetchUserInfo = async () => {
     try {
       dispatch(SetLoading(true));
+      // console.log(userid);
       const response = await axios.get(`/api/users/${userid}`);
       setUserInfo(response.data.data);
     } catch (error: any) {
@@ -30,6 +31,7 @@ function UserInfo() {
   React.useEffect(() => {
     fetchUserInfo();
   }, []);
+
   return (
     userInfo && (
       <div>
@@ -38,10 +40,11 @@ function UserInfo() {
             userInfo.userType === "researcher" ? "Researcher" : "Student"
           } Info`}
         />
+
         {userInfo.userType === "researcher" ? (
-          <ResearcherInfo />
+          <ResearcherInfo researcherInfo={userInfo} />
         ) : (
-          <StudentInfo />
+          <StudentInfo studentInfo={userInfo} />
         )}
       </div>
     )

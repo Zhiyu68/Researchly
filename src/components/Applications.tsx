@@ -17,6 +17,7 @@ function Applications({
   setShowApplications: (ShowApplications: boolean) => void;
   selectedProject: any;
 }) {
+  const router = useRouter();
   const [applications, setApplications] = React.useState([]);
   const dispatch = useDispatch();
 
@@ -86,6 +87,17 @@ function Applications({
           <option value="shortlisted">Shortlisted</option>
           <option value="rejected">Rejected</option>
         </select>
+      ),
+    },
+    {
+      title: "Actions",
+      dataIndex: "_id",
+      render: (applicationId: string, application) => (
+        <button
+          onClick={() => router.push(`/userinfo/${application.user._id}`)}
+        >
+          View
+        </button>
       ),
     },
   ];

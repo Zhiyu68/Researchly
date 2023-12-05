@@ -1,5 +1,5 @@
 import { connectDB } from "@/config/dbConfig";
-import { validdateJWT } from "@/helpers/vaildateJWT";
+import { validateJWT } from "@/helpers/validateJWT";
 import User from "@/models/userModel";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -8,7 +8,7 @@ connectDB();
 
 export async function GET(request: NextRequest) {
     try {
-        const userId = await validdateJWT(request);
+        const userId = await validateJWT(request);
         const user = await User.findById(userId).select("-password");
         if (!user) {
             throw new Error("No user found");

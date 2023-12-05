@@ -22,6 +22,7 @@ function ProjectInfo() {
     try {
       dispatch(SetLoading(true));
       const response = await axios.get(`/api/projects/${projectid}`);
+
       setProjectData(response.data.data);
     } catch (error: any) {
       message.error(error.message);
@@ -106,7 +107,7 @@ function ProjectInfo() {
             <span>{projectData.description}</span>
             {applications.length > 0 && (
               <span className="my-3 p-3 info">
-                You have already applied for this job. Please wait for the
+                You have already applied for this project. Please wait for the
                 researcher to respond
               </span>
             )}
@@ -117,7 +118,7 @@ function ProjectInfo() {
               </Button>
               <Button
                 type="default"
-                onClick={() => router.push(`/userinfo/${projectData.user._id}`)}
+                onClick={() => router.push(`/userinfo/${projectData.user}`)}
               >
                 View Researcher Info
               </Button>

@@ -1,5 +1,5 @@
 import { connectDB } from "@/config/dbConfig";
-import { validdateJWT } from "@/helpers/vaildateJWT";
+import { validateJWT } from "@/helpers/validateJWT";
 import Application from "@/models/applicationModel";
 import { NextRequest, NextResponse } from "next/server";
 
@@ -7,7 +7,7 @@ connectDB();
 
 export async function PUT(request: NextRequest, { params }: any) {
     try {
-        validdateJWT(request);
+        validateJWT(request);
         const reqBody = await request.json();
         const application = await Application.findByIdAndUpdate(params.applicationid, reqBody, {
             new: true,

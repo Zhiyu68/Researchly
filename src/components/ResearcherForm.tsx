@@ -36,7 +36,7 @@ function ResearcherForm() {
         </Col>
 
         <Col span={8}>
-          <Form.Item label="No of Employee" name="companySize">
+          <Form.Item label="No of Researcher" name="companySize">
             <input type="number" />
           </Form.Item>
         </Col>

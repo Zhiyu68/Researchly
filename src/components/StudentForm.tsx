@@ -54,14 +54,14 @@ function StudentForm() {
                   <Col span={8}>
                     <Form.Item
                       {...restField}
-                      name={[name, "qualication"]}
+                      name={[name, "qualification"]}
                       rules={[
                         {
                           required: true,
                           message: "Required",
                         },
                       ]}
-                      label="Qualication"
+                      label="Qualification"
                     >
                       <input type="text" />
                     </Form.Item>

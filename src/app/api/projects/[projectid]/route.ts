@@ -1,11 +1,11 @@
 import { connectDB } from "@/config/dbConfig";
-import { validateJWT } from "@/helpers/vaildateJWT";
+import { validateJWT } from "@/helpers/validateJWT";
 import Project from "@/models/projectModel";
 import { NextRequest, NextResponse } from "next/server";
 
 connectDB();
 
-export async function GET(request: NextRequest , {params}:any) {
+export async function GET(request: NextRequest, {params}:any) {
     try {
         validateJWT(request);
         const project = await Project.findById(params.projectid);
@@ -43,4 +43,8 @@ export async function DELETE(request: NextRequest, { params }: any) {
     }catch (error:any) {
         return NextResponse.json({message: error.message}, {status: 500});
     } 
+}
+
+function dateJWT(request: NextRequest) {
+    throw new Error("Function not implemented.");
 }
