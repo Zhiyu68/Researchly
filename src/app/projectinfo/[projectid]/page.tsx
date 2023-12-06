@@ -7,7 +7,6 @@ import { useRouter, useParams } from "next/navigation";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProjectPostForm from "@/components/ProjectPostForm";
-import { log } from "util";
 
 function ProjectInfo() {
   const { currentUser } = useSelector((state: any) => state.users);
@@ -122,6 +121,7 @@ function ProjectInfo() {
               >
                 View Researcher Info
               </Button>
+
               <Button
                 type="primary"
                 onClick={onApply}

@@ -23,5 +23,5 @@ if (mongoose.models.applications) {
   }
   
   // create new model
-  const Applcation= mongoose.model("applications", applicationSchema);
-  export default Applcation;
+  const Application= mongoose.model("applications", applicationSchema);
+  export default Application;

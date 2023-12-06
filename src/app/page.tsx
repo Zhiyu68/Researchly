@@ -41,34 +41,36 @@ function Home() {
         setFilters={setFilters}
         getData={fetchProjects}
       />
-      <Row gutter={[16, 16]} className="gap-3">
+      <Row>
         {projects.map((project: any) => (
           <Col
             span={8}
-            className="card flex flex-col gap-2 py-3 cursor-pointer"
+            className="p-2"
             key={project._id}
             onClick={() => router.push(`/projectinfo/${project._id}`)}
           >
-            <h1 className="text-md">{project.title}</h1>
-            <Divider />
+            <div className="card flex flex-col gap-2 py-3 cursor-pointer p-3">
+              <h1 className="text-md">{project.title}</h1>
+              <Divider />
 
-            <div className="flex justify-between">
-              <span>Researcher</span>
-              <span>{project.user.name}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Location</span>
-              <span>{project.location}</span>
-            </div>
-            <div className="flex justify-between">
-              <span>Salary</span>
-              <span>
-                £{project.salaryFromRange} - £{project.salaryToRange}
-              </span>
-            </div>
-            <div className="flex justify-between">
-              <span>Work Mode</span>
-              <span>{project.workMode}</span>
+              <div className="flex justify-between">
+                <span>Researcher</span>
+                <span>{project.user.name}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Location</span>
+                <span>{project.location}</span>
+              </div>
+              <div className="flex justify-between">
+                <span>Salary</span>
+                <span>
+                  £{project.salaryFromRange} - £{project.salaryToRange}
+                </span>
+              </div>
+              <div className="flex justify-between">
+                <span>Work Mode</span>
+                <span>{project.workMode}</span>
+              </div>
             </div>
           </Col>
         ))}

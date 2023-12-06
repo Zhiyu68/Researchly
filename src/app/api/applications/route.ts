@@ -11,33 +11,43 @@ export async function POST(request: NextRequest) {
         await validateJWT(request);
         
         const reqBody = await request.json();
-        const application:any = await Application.create(reqBody);
+        const application: any = await Application.create(reqBody);
+
+        const applicationData: any = await Application.findById(application._id)
+      .populate("user")
+      .populate({
+        path: "project",
+        populate: {
+          path: "user",
+        },
+      });
+
 
         await sendEmail({
-            to : application.user.email,
+            to : applicationData.user.email,
             subject: " New application received ",
-            text:`Your have received application from ${application.user.name}`,
+            text:`Your have received application from ${applicationData.user.name}`,
 
             html:`<div>
-            <p> Your have received application from ${application.user.name} </p> 
+            <p> Your have received application from ${applicationData.user.name} </p> 
             
             <p> 
-            Applicant's name is ${application.project.user.name}
+            Applicant's name is ${applicationData.project.user.name}
             </p>
             
             <p> 
-            Applicant's email: ${application.project.email}
+            Applicant's email: ${applicationData.project.email}
             </p>
           
             <p> 
-            Applicant's phone number: ${application.project.email}
+            Applicant's phone number: ${applicationData.project.email}
             </p>
             </div>`,
         });
 
         return NextResponse.json({ 
             message: "You have successfully applied for this project" ,
-            data : application ,
+            data : applicationData ,
         });
     } catch (error:any) {
         return NextResponse.json({message: error.message}, {status: 500});
@@ -46,13 +56,14 @@ export async function POST(request: NextRequest) {
 
 export async function GET(request: NextRequest) {
     try {
-        validateJWT(request);
+      validateJWT(request);
 
         // fetch query string parameters
         const { searchParams } = new URL(request.url);
+        
         const user = searchParams.get('user');
-
         const project = searchParams.get("project");
+
         const filtersObject: any = {};
         if (user) {
             filtersObject["user"] = user;
@@ -77,7 +88,6 @@ export async function GET(request: NextRequest) {
         
     }catch (error:any) {
         console.log(error);
-        
         return NextResponse.json({message: error.message}, {status: 500});
         
     }

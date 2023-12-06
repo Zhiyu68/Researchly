@@ -22,7 +22,7 @@ const userSchema = new mongoose.Schema(
     },
     password : {
         type : String,
-        required : true
+        required : true,
     },
     isAdmin : {
         type : Boolean,
@@ -48,32 +48,32 @@ const userSchema = new mongoose.Schema(
         required: false,
     },
 
-    // additional fields for Researcher
-    establishmentYear :{
-        type: String,
-        required: false,
-    },
-    companySize :{
-        type: String,
-        required: false,
-    },
-    website :{
-        type: String,
-        required: false,
-    },
-    about :{
-         type: String,
-        required: false,
-    },
-    address :{
-        type: String,
-       required: false,
-   },
-
-},{
-    timestamps : true
-});
-
+   // additional fields for employer
+   establishmentYear: {
+    type: String,
+    required: false,
+  },
+  companySize: {
+    type: String,
+    required: false,
+  },
+  website: {
+    type: String,
+    required: false,
+  },
+  about: {
+    type: String,
+    required: false,
+  },
+  address: {
+    type: String,
+    required: false,
+  },
+},
+{
+  timestamps: true,
+}
+);
 
 // delete old model
 if (mongoose.models.users) {
