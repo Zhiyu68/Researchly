@@ -10,17 +10,18 @@ import { useDispatch } from "react-redux";
 
 function NewProject() {
   const router = useRouter();
-
   const dispatch = useDispatch();
 
   const onFinish = async (values: any) => {
     try {
       dispatch(SetLoading(true));
       const response = await axios.post("/api/projects", values);
+      console.log(response);
+
       message.success(response.data.message);
       router.push("/projects");
     } catch (error: any) {
-      message.error(error.message);
+      message.error(error.response?.data.message || error.message);
     } finally {
       dispatch(SetLoading(false));
     }
@@ -39,7 +40,7 @@ function NewProject() {
         <ProjectPostForm />
         <div className="flex justify-end items-center gap-3 my-3">
           <Button type="default" onClick={() => router.back()}>
-            Cancle
+            Cancel
           </Button>
           <Button type="primary" htmlType="submit">
             Post Project

@@ -1,14 +1,13 @@
 "use client";
 import PageTitle from "@/components/PageTitle";
-import ProjectPostForm from "@/components/ProjectPostForm";
 import { SetLoading } from "@/redux/loaderSlice";
-import { Button, Col, Form, Row, message } from "antd";
+import { Button, Col, Form, Row, message, Divider } from "antd";
 import axios from "axios";
-import { useRouter } from "next/navigation";
+import { useRouter, useParams } from "next/navigation";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "next/navigation";
-import Divider from "@/components/Divider";
+import ProjectPostForm from "@/components/ProjectPostForm";
+import { log } from "util";
 
 function ProjectInfo() {
   const { currentUser } = useSelector((state: any) => state.users);
@@ -22,7 +21,6 @@ function ProjectInfo() {
     try {
       dispatch(SetLoading(true));
       const response = await axios.get(`/api/projects/${projectid}`);
-
       setProjectData(response.data.data);
     } catch (error: any) {
       message.error(error.message);
@@ -51,8 +49,10 @@ function ProjectInfo() {
   }, []);
 
   const onApply = async () => {
+    console.log(111);
     try {
       dispatch(SetLoading(true));
+
       const response = await axios.post(`/api/applications`, {
         project: projectData._id,
         user: currentUser._id,

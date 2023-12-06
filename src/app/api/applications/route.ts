@@ -9,6 +9,7 @@ connectDB();
 export async function POST(request: NextRequest) {
     try {
         await validateJWT(request);
+        
         const reqBody = await request.json();
         const application:any = await Application.create(reqBody);
 
@@ -39,7 +40,6 @@ export async function POST(request: NextRequest) {
             data : application ,
         });
     } catch (error:any) {
-        console.log(error);
         return NextResponse.json({message: error.message}, {status: 500});
     }
 }
